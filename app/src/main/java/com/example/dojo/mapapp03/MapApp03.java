@@ -6,6 +6,7 @@ import android.location.Geocoder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,7 +48,7 @@ public class MapApp03 extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        LatLng sydney = new LatLng(25, 25);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
@@ -55,6 +56,13 @@ public class MapApp03 extends FragmentActivity implements OnMapReadyCallback {
         String result = getAddress(this,-34,151);
         Log.d("QQQQ",result);
 
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                String result = getAddress(MapApp03.this,latLng.latitude,latLng.longitude);
+                Toast.makeText(MapApp03.this,"国名は" + result,Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
@@ -72,9 +80,10 @@ public class MapApp03 extends FragmentActivity implements OnMapReadyCallback {
         }
 
   //      Log.d("QQQQ",adds.toString());
+        
 
 
-        return adds.get(0).getFeatureName();
+        return adds.get(0).getCountryName();
     }
 
 
